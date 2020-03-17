@@ -4,7 +4,7 @@ lock "~> 3.12.1"
 set :application, "capistrano_test_project"
 set :repo_url, "https://github.com/vikaskajla-vk/practice-project.git"
 set :deploy_to, '~/test_deployment'
-set :scm, :git
+
 set :branch, 'capistrano_test'
 set :keep_releases, 4
 set :format, :pretty
