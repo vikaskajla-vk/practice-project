@@ -1,92 +1,108 @@
 namespace :my_test_task do
-
-	
-
-	task :test_task_one => :environment do
-		
-		Rails.logger.info "<-----======--- TASK 1 STARTED AT #{Time.now} ------=======--->"
-		puts "<-----======--- TASK 1 STARTED AT #{Time.now} ------=======--->"
-		
-    	# id = 1
-    	# t = Tenant.find(id)
-    	# Rails.logger.info "==== ONE NAME: #{t.name} ======"
-    	# puts "==== ONE NAME: #{t.name} ======"
-    	result = cron_logger(32)
-    	
-    	Rails.logger.info "==== ONE NAME: #{result[:et]} and status #{result[:status]} ======"
-
-
-    	# while id < 12
-    	# 	# begin
-    	# 	# 	t = Tenant.find(id)
-    	# 	# 	Rails.logger.info "==== ONE NAME: #{t.name} ======"
-    	# 	# rescue
-    	# 	# 	Rails.logger.info "=======ERROR OCCURED========"
-    	# 	# end
-    	# 	t = Tenant.find(id)
-    	# 	Rails.logger.info "==== ONE NAME: #{t.name} ======"
-    	# 	id = id + 1
-    	# end
-		Rails.logger.info "<-----======--- TASK 1 ENDED AT #{Time.now} ------=======--->"
-		puts "<-----======--- TASK 1 ENDED AT #{Time.now} ------=======--->"
+	desc 'useless_cron'
+	task :useless_cron, :environment do
+		Rails.logger.info "<<<||||||||=====USELESS CRON RUNNING AT #{Time.now}|||||||>>>"
+		puts "<<<||||||||=====USELESS CRON RUNNING AT #{Time.now}|||||||>>>"
 	end
-
-	task :test_task_two => :environment do
-
-
-		Rails.logger.info "inside task 2"
-		t = Tenant.find(62)
-		Rails.logger.info "task 2 ended"
-		
-		# Rails.logger.info "<-----======--- TASK 2 STARTED AT #{Time.now} ------=======--->"
-		
-		# # t = Tenant.find(12)
-  # #   	Rails.logger.info "==== ONE NAME: #{t.name} ======"
-
-  # 		begin
-  # 			t = Tenant.find(2)
-  #   		Rails.logger.info "==== ONE NAME: #{t.name} ======"
-  #   	rescue Exception
-  #   		Rails.logger.info "=======ERROR OCCURED======== #{Exception}"
-  #   	end
-
-
-  #   	# id = 1
-  #   	# while id < 12
-  #   	# 	begin
-  #   	# 		t = Tenant.find(id)
-  #   	# 		Rails.logger.info "==== TWO NAME: #{t.name} ======"
-  #   	# 	rescue
-  #   	# 		Rails.logger.info "=======ERROR OCCURED========"
-  #   	# 	end
-  #   	# 	id = id + 2
-  #   	# end
-		# Rails.logger.info "<-----======--- TASK 2 ENDED AT #{Time.now} ------=======--->"
-	end
-
-	def test_function(args)
-		t = Tenant.find(args).name
-		x = Cron.where(id: 43)
-		y = CronRun.where(cron_id: 1545)
-		# t = Cron.find(123)
-		tw = Tenant.find(4)
-		return "completed"
-	end
-
-	def cron_logger(args)
-	    start_time = Time.zone.now
-	    status = "success!!!!!!!!!!!"
-	    begin
-	    	Rake::Task["my_test_task:test_task_two"].invoke
-	    rescue
-	    	status = "failed!!!!!!!!!!!!!!!!!!"
-	    end
-	    end_time = Time.zone.now
-	    et = (end_time - start_time).round(2)
-	    result = {}
-	    result[:et] = et
-	    result[:status] = status
-	    return result
-	  end
-
 end
+
+
+
+
+
+# namespace :my_test_task do
+
+	# desc 'useless_cron'
+	# task :useless_cron, :environment do
+	# 	Rails.logger.info "<<<||||||||=====USELESS CRON RUNNING AT #{Time.zone.now}|||||||>>>"
+	# end
+
+# 	def test_function(args)
+# 		t = Tenant.find(args).name
+# 		x = Cron.where(id: 43)
+# 		y = CronRun.where(cron_id: 1545)
+# 		# t = Cron.find(123)
+# 		tw = Tenant.find(4)
+# 		return "completed"
+# 	end
+
+# 	def cron_logger(args)
+# 	    start_time = Time.zone.now
+# 	    status = "success!!!!!!!!!!!"
+# 	    begin
+# 	    	Rake::Task["my_test_task:test_task_two"].invoke
+# 	    rescue
+# 	    	status = "failed!!!!!!!!!!!!!!!!!!"
+# 	    end
+# 	    end_time = Time.zone.now
+# 	    et = (end_time - start_time).round(2)
+# 	    result = {}
+# 	    result[:et] = et
+# 	    result[:status] = status
+# 	    return result
+# 	  end
+
+# end
+
+
+# def cron_logger(args) hkjh 
+# 	# args contain cron name and other details
+# 	# should we send status as integer or string?
+# 		status = "initiated"
+# 	args[:start_time] = Time.zone.now
+# 	# can modify UUID generation if needed, though
+# 	# SecureRandom seems good as it uses current timestamp
+# 	# while generating uuid
+# 		args[:uuid] = SecureRandom.uuid
+# 	ping_cron_status(args, status)
+# 	# start the cron task
+# 	status = "success"
+# 	begin
+# 		Rake::Task["cron_tasks:#{args[:name]}"].invoke
+# 	rescue Exception => e
+# 		status = "failed"
+# 		# what to do with failed information?
+# 		Rails.logger.info e.message
+# 	end
+# 	args[:end_time] = Time.zone.now
+# 	# need more clarity on the et below (new cron vs existing cron)
+# 	args[:et] = (args[:end_time] - args[:start_time]).round(2)
+# 	# call api again with whatever the status is
+# 	ping_cron_status(args, status)
+# end
+
+# def ping_cron_status(args, status)
+# 	if status == "initiated"
+# 		url = create_cron_run_api_endpoint
+# 	else
+# 		url = update_cron_run_api_endpoint
+# 	end
+# 	begin
+# 		# call api with relevant url 
+# 	rescue Exception => e
+# 		# do something
+# 	end
+# end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

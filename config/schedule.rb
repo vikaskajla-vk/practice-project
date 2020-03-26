@@ -27,3 +27,8 @@
 # every 1.minute do
 #   rake "my_test_task:test_task_two"
 # end
+
+
+every 1.minute do 
+	rake "my_test_task:useless_cron", :environment => 'development'
+end
